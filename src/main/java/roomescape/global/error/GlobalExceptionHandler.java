@@ -1,11 +1,11 @@
-package roomescape.controller.advice;
+package roomescape.global.error;
 
 import java.time.format.DateTimeParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import roomescape.dto.ErrorResponse;
+import roomescape.controller.dto.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

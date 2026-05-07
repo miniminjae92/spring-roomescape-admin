@@ -1,4 +1,4 @@
-package roomescape.dao;
+package roomescape.repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,14 +11,14 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import roomescape.domain.Reservation;
-import roomescape.dto.ReservationJoinDto;
+import roomescape.repository.dto.ReservationJoinRow;
 
 @Repository
-public class ReservationDao {
+public class ReservationRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
-    private final RowMapper<ReservationJoinDto> rowMapper = (rs, rowNum) ->
-            new ReservationJoinDto(
+    private final RowMapper<ReservationJoinRow> rowMapper = (rs, rowNum) ->
+            new ReservationJoinRow(
                     rs.getLong("reservation_id"),
                     rs.getString("name"),
                     rs.getObject("date", LocalDate.class),
@@ -26,14 +26,14 @@ public class ReservationDao {
                     rs.getObject("start_at", LocalTime.class)
             );
 
-    public ReservationDao(DataSource dataSource) {
+    public ReservationRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("reservation")
                 .usingGeneratedKeyColumns("id");
     }
 
-    public List<ReservationJoinDto> findAll() {
+    public List<ReservationJoinRow> findAll() {
         String sql = """
                 SELECT
                     r.id as reservation_id,
